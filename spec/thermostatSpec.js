@@ -11,7 +11,7 @@ describe("Thermostat", function(){
 
 	it("can increase the temperature", function(){
 		thermostat.increaseTemp();
-		expect(thermostat.temperature).toEqual(21);		
+		expect(thermostat.temperature).toEqual(21);
 	});
 
 	it("can decrease the temperature", function(){
@@ -47,18 +47,33 @@ describe("Thermostat", function(){
 		expect(thermostat.temperature).toEqual(20);
 	});
 
-	
+	it("should have a low energy usage if less than 18 degrees", function(){
+		thermostat.temperature = 17;
+		expect(thermostat.energyUsage()).toEqual('Low');
+	});
 
-}); //closes describe
+	it("should have a medium energy usage if between 18 and 25 degrees", function(){
+		thermostat.temperature = 18;
+		expect(thermostat.energyUsage()).toEqual('Medium');
+		thermostat.temperature = 24;
+		expect(thermostat.energyUsage()).toEqual('Medium');
+	});
 
+	it("should have a high energy useage if more than 25 degrees", function(){
+		thermostat.temperature = 25;
+		expect(thermostat.energyUsage()).toEqual('High');
+	});
 
-// Thermostat starts at 20 degrees
-// You can increase the temp with the up button
-// You can decrease the temp with the down button
-// The minimum temperature is 10 degrees
-// If power saving mode is on, the maximum temperature is 25 degrees
-// If power saving mode is off, the maximum temperature is 32 degrees
-// Power saving mode is on by default
-// You can reset the temperature to 20 by hitting the reset button
-// The thermostat should color the display based on energy usage - < 18 is green, < 25 is yellow, otherwise red
-// After every temperature change, the thermostat makes a POST request to localhost:4567/temperature_change, with the new temperature
+	it("can switch off powersaving mode", function(){
+		thermostat.psmToggle();
+		expect(thermostat.psm).toBe(false);
+	});
+
+	it("can switch on powersaving mode when reset", function(){
+		thermostat.psmToggle();
+		thermostat.resetTemp();
+		expect(thermostat.psm).toBe(true);
+	});
+
+});
+
