@@ -5,17 +5,23 @@ $(document).ready(function(){
   $('#up').on('click', function(){
     $('#temp').replaceWith('<p id="temp">' + t.increaseTemp() + '&deg;C</p>');
     tempColours();
+    postToLocalHost();
   });
 
   $('#down').on('click', function(){
     $('#temp').replaceWith('<p id="temp">' + t.decreaseTemp() + '&deg;C</p>');
     tempColours();
+    postToLocalHost();
   });
 
   function tempColours() {
     if(t.energyUsage() === 'High') $('#temp').css('color', 'red');
     else if(t.energyUsage() === 'Medium') $('#temp').css('color', 'orange');
     else $('#temp').css('color', 'green');
+  };
+
+  function postToLocalHost(){
+    $.post('http://localhost:4567/temperature_change', {temperature: t.temperature});
   };
 
   $("#psm").on('click', savingOff);
