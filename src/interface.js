@@ -1,37 +1,41 @@
-function Thermostat() {
-  this.resetTemp();
-}
+$(document).ready(function(){
 
-  Thermostat.prototype.increaseTemp = function() {
-    if(this.psm === false && this.temperature < 32) return this.temperature += 1;
-    else if(this.temperature < 25) return this.temperature +=1;
-    return this.maxTemp();
+  var t = new Thermostat();
+
+  $('#up').on('click', function(){
+    $('#temp').replaceWith('<p id="temp">' + t.increaseTemp() + '&deg;C</p>');
+    tempColours();
+  });
+
+  $('#down').on('click', function(){
+    $('#temp').replaceWith('<p id="temp">' + t.decreaseTemp() + '&deg;C</p>');
+    tempColours();
+  });
+
+  function tempColours() {
+    if(t.energyUsage() === 'High') $('#temp').css('color', 'red');
+    else if(t.energyUsage() === 'Medium') $('#temp').css('color', 'orange');
+    else $('#temp').css('color', 'green');
   };
 
-  Thermostat.prototype.decreaseTemp = function() {
-    if(this.temperature >= 11) return this.temperature -= 1;
-    else return this.temperature = 10;
+  $("#psm").on('click', savingOff);
+
+  function savingOff() {
+      t.psmToggle();
+      $('#psm').html("Switch on PowerSaving Mode");
+      $("#psm").off('click').on('click', savingOn)
   };
 
-  Thermostat.prototype.maxTemp = function(){
-    if(this.psm) return 25;
-    else return 32;
+  function savingOn() {
+      t.psmToggle();
+      $('#psm').html("Switch off PowerSaving Mode");
+      $("#psm").off('click').on('click', savingOff)
   };
 
-  Thermostat.prototype.resetTemp = function(){
-    this.psm = true;
-    return this.temperature = 20;
-  };
+  $('#reset').on('click', function(){
+    t.resetTemp();
+    $('#temp').replaceWith('<p id="temp">' + t.temperature + '&deg;C</p>');
+    $('#psm').prop('checked', true);
+  });
 
-  Thermostat.prototype.energyUsage = function(){
-    if(this.temperature < 18) return 'Low';
-    if(this.temperature < 25) return 'Medium';
-    if(this.temperature >= 25) return 'High';
-  };
-
-  Thermostat.prototype.psmToggle = function(){
-    if(this.psm === true) this.psm = false;
-    else this.psm = true;
-  };
-
-
+});
