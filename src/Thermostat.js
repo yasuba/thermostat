@@ -26,7 +26,7 @@ function Thermostat() {
   Thermostat.prototype.energyUsage = function(){
     if(this.temperature < 18) return 'Low';
     else if(this.temperature < 25) return 'Medium';
-    else(this.temperature >= 25) return 'High';
+    else return 'High';
   };
 
   Thermostat.prototype.psmToggle = function(){
