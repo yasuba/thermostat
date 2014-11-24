@@ -1,50 +1,37 @@
-$(document).ready(function(){
+function Thermostat() {
+  this.resetTemp();
+}
 
-  var t = new Thermostat();
-
-  $('#up').on('click', function(){
-    $('#temp').replaceWith('<p id="temp">' + t.increaseTemp() + '&deg;C</p>');
-    tempColours();
-  });
-
-  $('#down').on('click', function(){
-    $('#temp').replaceWith('<p id="temp">' + t.decreaseTemp() + '&deg;C</p>');
-    tempColours();
-  });
-
-  function tempColours() {
-    if(t.energyUsage() === 'High') $('#temp').css('color', 'red');
-    else if(t.energyUsage() === 'Medium') $('#temp').css('color', 'orange');
-    else $('#temp').css('color', 'green');
+  Thermostat.prototype.increaseTemp = function() {
+    if(this.psm === false && this.temperature < 32) return this.temperature += 1;
+    else if(this.temperature < 25) return this.temperature +=1;
+    return this.maxTemp();
   };
 
-  $("#psm").on('click', function(){
-    if($(this).hasClass('fa-check-square-o')){
-      $(this).removeClass('fa-check-square-o').addClass('fa-square-o');}
-    else {
-      $(this).removeClass('fa-square-o').addClass('fa-check-square-o');}
-  });
-
-  $("#psm").on('click', savingOff);
-
-  function savingOff() {
-      t.psmToggle();
-      $('#psm').html("Switch on PowerSaving Mode");
-      $("#psm").off('click').on('click', savingOn)
+  Thermostat.prototype.decreaseTemp = function() {
+    if(this.temperature >= 11) return this.temperature -= 1;
+    else return this.temperature = 10;
   };
 
-  function savingOn() {
-      t.psmToggle();
-      $('#psm').html("Switch off PowerSaving Mode");
-      $("#psm").off('click').on('click', savingOff)
+  Thermostat.prototype.maxTemp = function(){
+  	if(this.psm) return 25;
+  	else return 32;
   };
 
-  $('#reset').on('click', function(){
-    t.resetTemp();
-    $('#temp').replaceWith('<p id="temp">' + t.temperature + '&deg;C</p>');
-    $('#psm').prop('checked', true);
-  });
+  Thermostat.prototype.resetTemp = function(){
+    this.psm = true;
+    return this.temperature = 20;
+  };
 
-});
+  Thermostat.prototype.energyUsage = function(){
+    if(this.temperature < 18) return 'Low';
+    if(this.temperature < 25) return 'Medium';
+    if(this.temperature >= 25) return 'High';
+  };
+
+  Thermostat.prototype.psmToggle = function(){
+    if(this.psm === true) this.psm = false;
+    else this.psm = true;
+  };
 
 
