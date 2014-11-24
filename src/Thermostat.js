@@ -1,6 +1,5 @@
 function Thermostat() {
-  this.temperature = 20;
-  this.psm = true;
+  this.resetTemp();
 }
 
   Thermostat.prototype.increaseTemp = function() {
@@ -10,8 +9,8 @@ function Thermostat() {
   };
 
   Thermostat.prototype.decreaseTemp = function() {
-    if(this.temperature >= 11) this.temperature -= 1;
-    else this.temperature = 10;
+    if(this.temperature >= 11) return this.temperature -= 1;
+    else return this.temperature = 10;
   };
 
   Thermostat.prototype.maxTemp = function(){
@@ -20,6 +19,18 @@ function Thermostat() {
   };
 
   Thermostat.prototype.resetTemp = function(){
+    this.psm = true;
     return this.temperature = 20;
+  };
+
+  Thermostat.prototype.energyUsage = function(){
+    if(this.temperature < 18) return 'Low';
+    if(this.temperature < 25) return 'Medium';
+    if(this.temperature >= 25) return 'High';
+  };
+
+  Thermostat.prototype.psmToggle = function(){
+    if(this.psm === true) this.psm = false;
+    else this.psm = true;
   };
 
