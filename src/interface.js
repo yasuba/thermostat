@@ -14,8 +14,8 @@ function Thermostat() {
   };
 
   Thermostat.prototype.maxTemp = function(){
-  	if(this.psm) return 25;
-  	else return 32;
+    if(this.psm) return 25;
+    else return 32;
   };
 
   Thermostat.prototype.resetTemp = function(){
