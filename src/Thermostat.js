@@ -30,7 +30,6 @@ function Thermostat() {
   };
 
   Thermostat.prototype.psmToggle = function(){
-    if(this.psm === true) this.psm = false;
-    else this.psm = true;
+    (this.psm === true) ? this.psm = false : this.psm = true;
   };
 
