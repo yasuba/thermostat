@@ -20,17 +20,15 @@ The challenge is to create a simple interface for a digital thermostat, using Ja
 * Javascript
 * JQuery
 * Jasmine SpecRunner
-* 
+
 ##View the thermostat
 
      git clone git@github.com:yasuba/thermostat.git
-     
      cd thermostat
-     
      open thermostat.html
 
 Click the up and down arrows to change the temperature. Uncheck powersaving mode to reach higher temperatures and click reset to return to 20 degrees with powersaving mode on.
 
 To run the Jasmine tests, from the thermostat directory:
-     
-     open SpecRunner.html
+
+    open SpecRunner.html
